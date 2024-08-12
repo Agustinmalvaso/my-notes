@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 </script>
 
 <template>
@@ -17,19 +16,26 @@ import { Label } from "@/components/ui/label";
     <Card class="w-[350px] login-container">
       <CardHeader>
         <CardTitle class="flex justify-center login-title">Sign in</CardTitle>
+        <CardDescription class="flex items-center gap-1"
+          >Don't have an account yet?
+          <button
+            class="flex underline text-sky-400 hover:text-sky-600 bg-transparent p-0"
+          >
+            Sign Up
+          </button></CardDescription
+        >
       </CardHeader>
       <CardContent class="flex flex-col gap-y-4">
-        <form>
           <div class="grid items-center w-full gap-4">
             <div class="flex flex-col space-y-1.5">
-              <Input id="name" placeholder="Email" />
+              <Input id="email" placeholder="Email" />
             </div>
           </div>
         </form>
         <form>
           <div class="grid items-center w-full gap-4">
             <div class="flex flex-col space-y-1.5">
-              <Input id="name" placeholder="Password" />
+              <Input id="password" placeholder="Password" />
             </div>
           </div>
         </form>
@@ -47,16 +53,16 @@ import { Label } from "@/components/ui/label";
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
+.login-button {
+  background-color: #142b46 !important;
+  border-color: white !important;
+}
 .login-title {
   font-size: 24px;
   margin-bottom: 20px;
   color: #fff;
 }
-.login-button {
-  background: linear-gradient(45deg, #000000, #1057f0);
-  color: #fff;
-}
 .login-button:hover {
-  background: linear-gradient(45deg, #000000, #0b45c0);
+  background: #183d53 !important;
 }
 </style>
