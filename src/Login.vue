@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
         >
       </CardHeader>
       <CardContent class="flex flex-col gap-y-4">
+        <form>
           <div class="grid items-center w-full gap-4">
             <div class="flex flex-col space-y-1.5">
               <Input id="email" placeholder="Email" />

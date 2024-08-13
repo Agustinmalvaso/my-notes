@@ -15,9 +15,11 @@ const name = ref("");
 const email = ref("");
 const password = ref("");
 const passwordConfirmation = ref("");
+const errors = ref<{ [key: string]: string[] }>({});
 
 async function registerUser() {
   try {
+    errors.value = {};
     const response = await axios.post("http://my-notes-backend.test/register", {
       name: name.value,
       email: email.value,
@@ -25,8 +27,12 @@ async function registerUser() {
       password_confirmation: passwordConfirmation.value,
     });
     console.log("Registration successful:", response.data);
-  } catch (error) {
-    console.error("There was an error!", error.response.data);
+  } catch (error: any) {
+    if (error.response && error.response.data.errors) {
+      errors.value = error.response.data.errors;
+    } else {
+      console.error("There was an error!", error);
+    }
   }
 }
 </script>
@@ -44,24 +50,39 @@ async function registerUser() {
         >
           <div class="flex flex-col items-center w-full gap-4">
             <Input v-model="name" id="name" placeholder="Name" />
+            <div v-if="errors.name" class="text-red-500 text-sm">
+              {{ errors.name[0] }}
+            </div>
             <Input
               v-model="email"
               id="email"
               placeholder="Email"
               type="email"
             />
+            <div v-if="errors.email" class="text-red-500 text-sm">
+              {{ errors.email[0] }}
+            </div>
             <Input
               v-model="password"
               id="password"
               placeholder="Password"
               type="password"
             />
+            <div v-if="errors.password" class="text-red-500 text-sm">
+              {{ errors.password[0] }}
+            </div>
             <Input
               v-model="passwordConfirmation"
               id="password_confirmation"
               placeholder="Confirm Password"
               type="password"
             />
+            <div
+              v-if="errors.password_confirmation"
+              class="text-red-500 text-sm"
+            >
+              {{ errors.password_confirmation[0] }}
+            </div>
           </div>
           <CardFooter class="flex justify-center">
             <Button class="w-full login-button" type="submit">Register</Button>
