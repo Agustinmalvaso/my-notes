@@ -16,13 +16,14 @@ import { Input } from "@/components/ui/input";
     <Card class="w-[350px] login-container">
       <CardHeader>
         <CardTitle class="flex justify-center login-title">Sign in</CardTitle>
-        <CardDescription class="flex items-center gap-1"
+        <CardDescription class="flex items-center gap-1 text-white"
           >Don't have an account yet?
-          <button
+          <router-link
+            to="/register"
             class="flex underline text-sky-400 hover:text-sky-600 bg-transparent p-0"
           >
             Sign Up
-          </button></CardDescription
+          </router-link></CardDescription
         >
       </CardHeader>
       <CardContent class="flex flex-col gap-y-4">

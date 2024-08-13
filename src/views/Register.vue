@@ -39,9 +39,11 @@ async function registerUser() {
 
 <template>
   <div class="flex justify-center items-center h-screen">
-    <Card class="w-[350px] login-container">
+    <Card class="w-[350px] register-container">
       <CardHeader>
-        <CardTitle class="flex justify-center login-title">Sign Up</CardTitle>
+        <CardTitle class="flex justify-center register-title"
+          >Sign Up</CardTitle
+        >
       </CardHeader>
       <CardContent class="flex flex-col gap-y-4">
         <form
@@ -84,8 +86,18 @@ async function registerUser() {
               {{ errors.password_confirmation[0] }}
             </div>
           </div>
-          <CardFooter class="flex justify-center">
-            <Button class="w-full login-button" type="submit">Register</Button>
+          <CardFooter class="flex justify-center flex-col gap-2">
+            <Button class="w-full register-button" type="submit"
+              >Register</Button
+            >
+            <div class="flex flex-row gap-1">
+              <p class="text-white">Already have an account?</p>
+              <router-link
+                to="/"
+                class="flex underline text-sky-400 hover:text-sky-600 bg-transparent p-0"
+                >Login</router-link
+              >
+            </div>
           </CardFooter>
         </form>
       </CardContent>
@@ -94,21 +106,21 @@ async function registerUser() {
 </template>
 
 <style>
-.login-container {
+.register-container {
   background: linear-gradient(135deg, #0e435c, #010425);
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
-.login-button {
+.register-button {
   background-color: #142b46 !important;
   border-color: white !important;
 }
-.login-title {
+.register-title {
   font-size: 24px;
   margin-bottom: 20px;
   color: #fff;
 }
-.login-button:hover {
+.register-button:hover {
   background: #183d53 !important;
 }
 </style>
