@@ -9,6 +9,34 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { ref } from "vue";
+
+const email = ref("");
+const password = ref("");
+const errorMessage = ref("");
+
+async function login() {
+  errorMessage.value = "";
+
+  try {
+    const response = await axios.post("http://my-notes-backend.test/login", {
+      email: email.value,
+      password: password.value,
+    });
+    console.log("Login successful", response.data);
+  } catch (error: any) {
+    if (error.response) {
+      if (error.response.status === 422) {
+        errorMessage.value = "The email must be a valid email address.";
+      } else if (error.response.status === 401) {
+        errorMessage.value = "The email or password are incorrect.";
+      }
+    } else {
+      console.error("There was an error!", error);
+    }
+  }
+}
 </script>
 
 <template>
@@ -27,23 +55,29 @@ import { Input } from "@/components/ui/input";
         >
       </CardHeader>
       <CardContent class="flex flex-col gap-y-4">
-        <form>
+        <div v-if="errorMessage" class="text-red-500 text-sm">
+          {{ errorMessage }}
+        </div>
+        <form @submit.prevent="login">
           <div class="grid items-center w-full gap-4">
             <div class="flex flex-col space-y-1.5">
-              <Input id="email" placeholder="Email" />
+              <Input id="email" placeholder="Email" v-model="email" />
             </div>
           </div>
-        </form>
-        <form>
-          <div class="grid items-center w-full gap-4">
+          <div class="grid items-center w-full gap-4 mt-4">
             <div class="flex flex-col space-y-1.5">
-              <Input id="password" placeholder="Password" />
+              <Input
+                id="password"
+                type="password"
+                placeholder="Password"
+                v-model="password"
+              />
             </div>
           </div>
         </form>
       </CardContent>
       <CardFooter class="flex justify-center">
-        <Button class="w-full login-button">Login</Button>
+        <Button class="w-full login-button" @click="login">Login</Button>
       </CardFooter>
     </Card>
   </div>
