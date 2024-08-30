@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import { ref } from "vue";
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="w-full h-screen bg-gradient-to-br from-[#0a2641e3] to-[#010425]">

@@ -11,19 +11,27 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import Loading from "../util-components/Loading.vue";
+
+const router = useRouter();
+const route = useRoute();
 
 const email = ref("");
 const password = ref("");
 const errorMessage = ref("");
+const loading = ref(false);
 
 async function login() {
   errorMessage.value = "";
 
   try {
+    loading.value = true;
     const response = await axios.post("http://my-notes-backend.test/login", {
       email: email.value,
       password: password.value,
     });
+    router.push({ path: "/Home" });
     console.log("Login successful", response.data);
   } catch (error: any) {
     if (error.response) {
@@ -35,12 +43,15 @@ async function login() {
     } else {
       console.error("There was an error!", error);
     }
+  } finally {
+    loading.value = false;
   }
 }
 </script>
 
 <template>
-  <div class="flex justify-center items-center h-screen">
+  <Loading v-if="loading" class="flex justify-center items-center h-screen" />
+  <div v-else class="flex justify-center items-center h-screen">
     <Card class="w-[350px] login-container">
       <CardHeader>
         <CardTitle class="flex justify-center login-title">Sign in</CardTitle>
@@ -58,6 +69,7 @@ async function login() {
         <div v-if="errorMessage" class="text-red-500 text-sm">
           {{ errorMessage }}
         </div>
+
         <form @submit.prevent="login">
           <div class="grid items-center w-full gap-4">
             <div class="flex flex-col space-y-1.5">
