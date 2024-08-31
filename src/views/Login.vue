@@ -11,8 +11,9 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import Loading from "../util-components/Loading.vue";
+import { useUserStore } from "@/stores/userStore";
 
 const router = useRouter();
 
@@ -20,6 +21,7 @@ const email = ref("");
 const password = ref("");
 const errorMessage = ref("");
 const loading = ref(false);
+const userStore = useUserStore();
 
 async function login() {
   errorMessage.value = "";
@@ -29,7 +31,8 @@ async function login() {
       email: email.value,
       password: password.value,
     });
-    console.log("Login successful", response.data);
+    console.log("Login successful");
+    userStore.setUser(response.data.user);
     router.push({ path: "/Home" });
   } catch (error: any) {
     if (error.response) {
