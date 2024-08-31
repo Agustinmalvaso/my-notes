@@ -16,9 +16,11 @@ const email = ref("");
 const password = ref("");
 const passwordConfirmation = ref("");
 const errors = ref<{ [key: string]: string[] }>({});
+const loading = ref(false);
 
 async function registerUser() {
   try {
+    loading.value = true;
     errors.value = {};
     const response = await axios.post("http://my-notes-backend.test/register", {
       name: name.value,
@@ -33,12 +35,15 @@ async function registerUser() {
     } else {
       console.error("There was an error!", error);
     }
+  } finally {
+    loading.value = false;
   }
 }
 </script>
 
 <template>
-  <div class="flex justify-center items-center h-screen">
+  <Loading v-if="loading" class="flex justify-center items-center h-screen" />
+  <div v-else class="flex justify-center items-center h-screen">
     <Card class="w-[350px] register-container">
       <CardHeader>
         <CardTitle class="flex justify-center register-title"

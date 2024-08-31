@@ -15,7 +15,6 @@ import { useRouter, useRoute } from "vue-router";
 import Loading from "../util-components/Loading.vue";
 
 const router = useRouter();
-const route = useRoute();
 
 const email = ref("");
 const password = ref("");
@@ -24,15 +23,14 @@ const loading = ref(false);
 
 async function login() {
   errorMessage.value = "";
-
+  loading.value = true;
   try {
-    loading.value = true;
     const response = await axios.post("http://my-notes-backend.test/login", {
       email: email.value,
       password: password.value,
     });
-    router.push({ path: "/Home" });
     console.log("Login successful", response.data);
+    router.push({ path: "/Home" });
   } catch (error: any) {
     if (error.response) {
       if (error.response.status === 422) {
@@ -43,7 +41,6 @@ async function login() {
     } else {
       console.error("There was an error!", error);
     }
-  } finally {
     loading.value = false;
   }
 }
